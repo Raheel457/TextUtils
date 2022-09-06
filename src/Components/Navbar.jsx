@@ -2,14 +2,19 @@ import React from "react";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import Fab from "@mui/material/Fab";
+import { Link } from "react-router-dom";
 
 function Nav(props) {
   return (
-    <nav className={`navbar navbar-expand-lg navbar-${props.mode ? "dark":"light"} bg-${props.mode ? "dark":"light"}`}>
+    <nav
+      className={`navbar navbar-expand-lg navbar-${
+        props.mode ? "dark" : "light"
+      } bg-${props.mode ? "dark" : "light"}`}
+    >
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           TextUtils
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,17 +29,18 @@ function Nav(props) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
+              <Link className="nav-link active" aria-current="page" to="/">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/">
+              <Link className="nav-link" to="/about">
                 About
-              </a>
+              </Link>
             </li>
           </ul>
-          <div style={{ marginLeft: 1600 }}>
+          {/* <div style={{ marginLeft: 1600 }}> */}
+          <div className="my-2 my-lg-0">
             <Fab onClick={() => props.toggleMode()}>
               {props.mode ? <LightModeIcon /> : <DarkModeIcon />}
             </Fab>

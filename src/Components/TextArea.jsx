@@ -15,20 +15,20 @@ function TextArea(props) {
   function toUpHandle() {
     const newText = text.toUpperCase();
     setText(newText);
-    if (text === "") {
-      props.showAlert("Text area is Empty!", "warning");
+    if (text === newText) {
+      props.showAlert("Text is already in Uppercase!", "warning");
     } else {
-      props.showAlert("Change to uppercase", "success");
+      props.showAlert("Change to Uppercase.", "success");
     }
   }
   // Text to change into Lowercase
   function toLowHandle() {
     const newText = text.toLowerCase();
     setText(newText);
-    if (text === "") {
-      props.showAlert("Text area is Empty!", "warning");
+    if (text === newText) {
+      props.showAlert("Text is already in Lowercase!", "warning");
     } else {
-      props.showAlert("Change to lowercase", "success");
+      props.showAlert("Change to lowercase.", "success");
     }
   }
   // Capitalize Text
@@ -53,20 +53,22 @@ function TextArea(props) {
   function toCapitalizeHandle() {
     const newText = capitalize(text);
     setText(newText);
-    if (text === "") {
-      props.showAlert("Text area is Empty!", "warning");
+    if (newText[newText.length - 2] === "." && newText === text) {
+      props.showAlert("Text is already Capitalized!", "warning");
+    } else if (text === newText) {
+      props.showAlert(
+        "Please put period (.) at the end of statement.",
+        "warning"
+      );
     } else {
-      props.showAlert("Text capitalized", "success");
+      props.showAlert("Text capitalized.", "success");
     }
   }
   // Clearing Text
   function toClearHandle() {
     setText("");
-    if (text === "") {
-      props.showAlert("Text area is Already Empty!", "warning");
-    } else {
-      props.showAlert("Text Cleared", "success");
-    }
+
+    props.showAlert("Text Cleared", "success");
   }
 
   return (
@@ -80,8 +82,9 @@ function TextArea(props) {
         <textarea
           className="form-control"
           style={{
-            backgroundColor: props.mode && "grey",
+            backgroundColor: props.mode && "#182f3c",
             color: props.mode && "white",
+            border: "1px solid",
           }}
           id="exampleFormControlTextarea1"
           rows={writing ? "8" : "1"}
@@ -89,20 +92,30 @@ function TextArea(props) {
           value={text}
           onChange={changeHandle}
         ></textarea>
-        <button className="btn btn-primary my-3 mx-2" onClick={toUpHandle}>
+        <button
+          disabled={text.length === 0}
+          className={`btn btn${props.mode ? "" : "-outline"}-primary my-3 mx-2`}
+          onClick={toUpHandle}
+        >
           ALL UPPERCLASS
         </button>
-        <button className="btn btn-primary my-3 mx-2" onClick={toLowHandle}>
+        <button
+          disabled={text.length === 0}
+          className={`btn btn${props.mode ? "" : "-outline"}-primary my-3 mx-2`}
+          onClick={toLowHandle}
+        >
           all lowerclass
         </button>
         <button
-          className="btn btn-primary my-3 mx-2"
+          disabled={text.length === 0}
+          className={`btn btn${props.mode ? "" : "-outline"}-primary my-3 mx-2`}
           onClick={toCapitalizeHandle}
         >
           All Capitalize
         </button>
         <button
-          className="btn btn-outline-warning my-3 mx-2"
+          disabled={text.length === 0}
+          className={`btn btn${props.mode ? "" : "-outline"}-warning my-3 mx-2`}
           onClick={toClearHandle}
         >
           Clear All
@@ -114,9 +127,16 @@ function TextArea(props) {
           style={{ color: props.mode && "white" }}
         >
           <h2>Preview:</h2>
-          <h6>{text}</h6>
+          <h6>{text.length > 0 ? text : "Enter something to preview."}</h6>
           <h2>Text Summary:</h2>
-          <p>Words: {text === "" ? 0 : text.split(" ").length}</p>
+          <p>
+            Words:{" "}
+            {
+              text.split(" ").filter((element) => {
+                return element.length !== 0;
+              }).length
+            }
+          </p>
           <p>Characters: {text.length}</p>
           <p>
             {text === "" ? 0 : 0.008 * text.split(" ").length} Minutes required
