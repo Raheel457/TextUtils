@@ -31,6 +31,12 @@ function TextArea(props) {
       props.showAlert("Change to lowercase.", "success");
     }
   }
+  // To copy text
+  function toCopyHandle(){
+    navigator.clipboard.writeText(text);
+    props.showAlert("Text Copied.", "success");
+
+  }
   // Capitalize Text
   function capitalize(user) {
     const newArr = user.split(".");
@@ -109,6 +115,13 @@ function TextArea(props) {
         <button
           disabled={text.length === 0}
           className={`btn btn${props.mode ? "" : "-outline"}-primary my-3 mx-2`}
+          onClick={toCopyHandle}
+        >
+          Copy Text
+        </button>
+        <button
+          disabled={text.length === 0}
+          className={`btn btn${props.mode ? "" : "-outline"}-primary my-3 mx-2`}
           onClick={toCapitalizeHandle}
         >
           All Capitalize
@@ -132,7 +145,7 @@ function TextArea(props) {
           <p>
             Words:{" "}
             {
-              text.split(" ").filter((element) => {
+              text.split(/\s+/).filter((element) => {
                 return element.length !== 0;
               }).length
             }
